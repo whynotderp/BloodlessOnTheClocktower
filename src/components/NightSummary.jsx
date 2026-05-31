@@ -12,9 +12,9 @@ export default function NightSummary() {
       case 'monk_saved': return `🛡️ Someone was protected by the Monk.`;
       case 'soldier_safe': return `⚔️ The Demon attacked someone, but they survived.`;
       case 'mayor_bounce': return `🎩 The Mayor redirected the night attack.`;
-      case 'imp_suicide': return `⚠️ The Imp met a strange fate...`;
-      case 'fanggu_jump': return `⚠️ Something strange happened with the Demon...`;
-      case 'scarlet_woman': return `💄 The demon role has shifted.`;
+      case 'imp_suicide': return null;
+      case 'fanggu_jump': return null;
+      case 'scarlet_woman': return null;
       default: return null;
     }
   }).filter(Boolean);
