@@ -1,22 +1,10 @@
 import { useGame } from '../GameContext';
+import SeatingCircle from './SeatingCircle';
 
 export default function SeatingOrder() {
   const { state, dispatch } = useGame();
   const { players } = state;
-
-  // players array order IS the seating order (randomised during role assignment)
   const n = players.length;
-
-  // Compute positions around a circle for the SVG diagram
-  const cx = 140, cy = 140, r = 105;
-  const seats = players.map((p, i) => {
-    const angle = (2 * Math.PI * i) / n - Math.PI / 2; // start at top
-    return {
-      ...p,
-      x: cx + r * Math.cos(angle),
-      y: cy + r * Math.sin(angle),
-    };
-  });
 
   return (
     <div className="screen">
@@ -27,38 +15,8 @@ export default function SeatingOrder() {
           Neighbour relationships (Empath, Chef, etc.) are based on who sits next to who.
         </p>
 
-        {/* Circle diagram */}
         <div className="seating-circle-wrap">
-          <svg viewBox="0 0 280 280" className="seating-svg">
-            {/* Lines between neighbours */}
-            {seats.map((s, i) => {
-              const next = seats[(i + 1) % n];
-              return (
-                <line
-                  key={i}
-                  x1={s.x} y1={s.y}
-                  x2={next.x} y2={next.y}
-                  stroke="#3a2010" strokeWidth="1.5"
-                />
-              );
-            })}
-            {/* Player dots + labels */}
-            {seats.map((s, i) => (
-              <g key={s.id}>
-                <circle cx={s.x} cy={s.y} r="18" fill="#2a1208" stroke="#d4a843" strokeWidth="1.5" />
-                <text
-                  x={s.x} y={s.y + 1}
-                  textAnchor="middle"
-                  dominantBaseline="middle"
-                  fontSize="9"
-                  fill="#f0e8d8"
-                  fontFamily="Georgia, serif"
-                >
-                  {s.name.length > 6 ? s.name.slice(0, 5) + '…' : s.name}
-                </text>
-              </g>
-            ))}
-          </svg>
+          <SeatingCircle players={players} />
         </div>
 
         {/* Linear list for clarity */}

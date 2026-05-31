@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGame } from '../GameContext';
 import { ROLES } from '../gameData';
+import SeatingCircle from './SeatingCircle';
 
 export default function DayPhase() {
   const { state, dispatch } = useGame();
@@ -63,19 +64,8 @@ export default function DayPhase() {
           <span className="alive-count">{alivePlayers.length} alive</span>
         </div>
 
-        <h2 className="section-title">Players — Seating Order (circular)</h2>
-        <div className="players-list">
-          {players.map(p => (
-            <div key={p.id} className={`player-row ${!p.alive ? 'dead' : ''}`}>
-              <span className="player-row-name">{p.name}</span>
-              {!p.alive && <span className="dead-label">† Dead</span>}
-              {p.alive && p.butlerMaster && (
-                <span className="status-tag butler">
-                  🔗 Master: {players.find(m => m.id === p.butlerMaster)?.name || '?'}
-                </span>
-              )}
-            </div>
-          ))}
+        <div className="seating-circle-wrap">
+          <SeatingCircle players={players} />
         </div>
 
         {/* Slayer ability */}
