@@ -15,7 +15,6 @@ export default function DayPhase() {
 
   const alivePlayers = players.filter(p => p.alive);
   const slayer = players.find(p => p.roleId === 'slayer' && p.alive && !p.usedOnceAbility);
-  const virginAlive = players.find(p => p.roleId === 'virgin' && p.alive && !p.virginNominated);
 
   function startNomination() {
     setNomineeId(null);
@@ -25,12 +24,7 @@ export default function DayPhase() {
 
   function confirmNominee(id) {
     setNomineeId(id);
-    // Only need nominator if Virgin is alive and hasn't been nominated
-    if (virginAlive) {
-      setNominateStep('pick_nominator');
-    } else {
-      setNominateStep('confirm');
-    }
+    setNominateStep('pick_nominator');
   }
 
   function confirmNominator(id) {
@@ -163,10 +157,8 @@ export default function DayPhase() {
             {nominateStep === 'pick_nominator' && nominee && (
               <div className="nominate-box">
                 <p className="label">
-                  <strong>{nominee.name}</strong> is nominated.{' '}
-                  <span style={{ color: '#c8a87a' }}>Virgin is alive — who is nominating?</span>
+                  <strong>{nominee.name}</strong> is nominated. Who is nominating them?
                 </p>
-                <p className="hint-small">If the nominator is Townsfolk, they will be immediately executed instead.</p>
                 <div className="player-picker">
                   {alivePlayers.filter(p => p.id !== nomineeId).map(p => (
                     <button
